@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine?</title>
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    font-family:'Arial', sans-serif;
+    overflow:hidden;
+}
+
+h1{
+    color:white;
+    text-shadow:2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.buttons{
+    margin-top:20px;
+    position:relative;
+    width:300px;
+    height:150px;
+}
+
+/* Buttons */
+button{
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+}
+
+#yesBtn{
+    background:#ff1744;
+    color:white;
+}
+
+#noBtn{
+    background:white;
+    color:#ff1744;
+    position:absolute;
+    left:180px;
+    top:40px;
+    transition:0.1s;
+}
+
+/* Confetti + kiss container */
+#confetti-container{
+    position:fixed;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+}
+
+/* Kiss emoji style */
+.kiss{
+    position:fixed;
+    font-size:40px;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall{
+    from{ transform:translateY(-50px); opacity:1;}
+    to{ transform:translateY(100vh); opacity:0;}
+}
+
+/* Confetti piece */
+.confetti{
+    position:fixed;
+    width:8px;
+    height:8px;
+    background:yellow;
+    animation:confettiFall 2s linear forwards;
+}
+
+@keyframes confettiFall{
+    from{ transform:translateY(-50px) rotate(0deg); opacity:1;}
+    to{ transform:translateY(100vh) rotate(360deg); opacity:0;}
+}
+
+/* UPDATED AGAIN: Bigger, bolder, with heart, slightly higher */
+.credit{
+    position:fixed;
+    bottom:40px; /* moved further up */
+    width:100%;
+    text-align:center;
+    font-size:20px; /* increased font size */
+    font-weight:900; /* extra bold */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.credit a{
+    color:white;
+    text-decoration:none;
+}
+
+.credit a:hover{
+    text-decoration:underline;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💖 Will you be my Valentine? 💖</h1>
+
+<div class="buttons">
+    <button id="yesBtn">Yes 💘</button>
+    <button id="noBtn">No 😒</button>
+</div>
+
+<div id="confetti-container"></div>
+
+<div class="credit">
+    ♥️ Made by: <a href="https://youtube.com/@urbanmowglivines" target="_blank">Urban Mowgli Vines</a>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const confettiContainer = document.getElementById("confetti-container");
+
+document.addEventListener("mousemove", function(e){
+    const rect = noBtn.getBoundingClientRect();
+    const distance = Math.hypot(e.clientX - (rect.left+rect.width/2),
+                               e.clientY - (rect.top+rect.height/2));
+
+    if(distance < 120){
+        const x = Math.random()*250;
+        const y = Math.random()*100;
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+});
+
+yesBtn.addEventListener("click", function(){
+    for(let i=0;i<60;i++){
+        createConfetti();
+    }
+    for(let i=0;i<30;i++){
+        createKiss();
+    }
+});
+
+function createConfetti(){
+    const c = document.createElement("div");
+    c.className="confetti";
+    c.style.left = Math.random()*100 + "vw";
+    c.style.background = ["#ff1744","#fff","#ffeb3b","#8e24aa"][Math.floor(Math.random()*4)];
+    confettiContainer.appendChild(c);
+
+    setTimeout(()=>c.remove(),2000);
+}
+
+function createKiss(){
+    const k = document.createElement("div");
+    k.className="kiss";
+    k.innerHTML="😘";
+    k.style.left = Math.random()*100 + "vw";
+    k.style.fontSize = (30 + Math.random()*30) + "px";
+    confettiContainer.appendChild(k);
+
+    setTimeout(()=>k.remove(),3000);
+}
+</script>
+
+</body>
+</html>
